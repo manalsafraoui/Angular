@@ -6,6 +6,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatListModule } from '@angular/material/list';
 
 import { DishService } from './services/dish.service';
+import {PromotionService} from './services/promotion.service';
 
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
@@ -44,7 +45,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     AppRoutingModule,
 
   ],
-  providers: [DishService],
+  providers: [DishService,
+     PromotionService,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
