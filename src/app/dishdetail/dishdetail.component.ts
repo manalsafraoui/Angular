@@ -8,6 +8,7 @@ import {Comment} from '../shared/comment';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 
+
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
@@ -22,6 +23,7 @@ export class DishdetailComponent implements OnInit {
   prev: string;
   next: string;
   errMess: string;
+  dishcopy: Dish;
 
   comments: Comment[];
   commentForm: FormGroup;
@@ -61,6 +63,10 @@ export class DishdetailComponent implements OnInit {
         this.comments = dish.comments;
         this.setPrevNext(dish.id);
       }, errmess => this.errMess = <any>errmess);
+      this.route.params
+      .pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
+      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); },
+        errmess => this.errMess = <any>errmess );
   }
 
   setPrevNext(dishId: string) {
@@ -94,7 +100,13 @@ export class DishdetailComponent implements OnInit {
     // add comment date value
     console.log(this.comment);
 
-    this.dish.comments.push(this.comment);
+    this.dishcopy.comments.push(this.comment);
+
+     this.dishservice.putDish(this.dishcopy)
+      .subscribe(dish => {
+        this.dish = dish; this.dishcopy = dish;
+      },errmess => { this.dish = null; this.dishcopy = null; this.errMess = <any>errmess; });
+ 
     // add comment to list
     this.commentForm.reset({
       author: '',
@@ -103,7 +115,8 @@ export class DishdetailComponent implements OnInit {
       date: ''
     });
     this.commentFormDirective.resetForm();
-  }
+
+    }
 
   onValueChanged(data?: any) {
     if (!this.commentForm) {
