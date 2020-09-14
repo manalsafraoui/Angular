@@ -8,6 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { DishService } from './services/dish.service';
 import {PromotionService} from './services/promotion.service';
 import {LeaderService} from './services/leader.service';
+import{ProcessHTTPMsgService} from './services/process-httpmsg.service';
 
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
@@ -80,7 +81,8 @@ import { HttpModule } from '@angular/http';
   providers: [DishService,
      PromotionService,
      LeaderService,
-     {provide: 'baseURL', useValue: baseURL}
+     {provide: 'baseURL', useValue: baseURL},
+     ProcessHTTPMsgService,
     ],
   
   bootstrap: [AppComponent],
